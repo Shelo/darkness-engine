@@ -5,7 +5,6 @@ layout (location = 1) in vec2 a_texCoord;
 
 uniform mat3 u_projectedView;
 uniform mat3 u_model;
-
 out vec2 texCoord;
 
 void main() {

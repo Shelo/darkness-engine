@@ -4,8 +4,8 @@
 
 #include <string>
 
+#include "OpenGL/gl3.h"
 #include "GLFW/glfw3.h"
-#include "OpenGL/gl.h"
 
 #include "Macros.h"
 #include "Shader.h"
@@ -39,6 +39,16 @@ private:
      * Shader program.
      */
     std::unique_ptr<Shader> shader;
+
+    /**
+     * Prepare render status and render.
+     */
+    void render();
+
+    /**
+     * Setup OpenGL.
+     */
+    void setupGL();
 
 public:
     /**

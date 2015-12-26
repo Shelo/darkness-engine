@@ -6,4 +6,6 @@
 #define ERRORC(__MESSAGE__, __CLEAN__) std::cerr << __MESSAGE__ << std::endl; __CLEAN__ exit(1);
 #define ERROR(__MESSAGE__) std::cerr << __MESSAGE__ << std::endl; exit(1);
 
+#define LOG(__MESSAGE__) std::cout << "[LOG] " << __MESSAGE__ << std::endl;
+
 #endif //DARKNESS_MACROS_H

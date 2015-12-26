@@ -1,5 +1,22 @@
 #include "Shader.h"
 
+void checkStatus(GLuint target, GLenum param, void (*check) (GLuint, GLenum, GLsizei *),
+                 void (*log) (GLuint, GLsizei, GLsizei *, GLchar *))
+{
+    GLsizei status;
+
+    check(target, param, &status);
+
+    if (status == GL_FALSE) {
+        char buffer[512];
+        GLsizei length;
+
+        log(target, 512, &length, buffer);
+
+        ERROR(buffer)
+    }
+}
+
 Shader::Shader(std::string vertex, std::string fragment)
 {
     program = glCreateProgram();
@@ -8,10 +25,17 @@ Shader::Shader(std::string vertex, std::string fragment)
     createShader(fragment, GL_FRAGMENT_SHADER);
 
     glLinkProgram(program);
+    checkStatus(program, GL_LINK_STATUS, glGetProgramiv, glGetProgramInfoLog);
 
-    // TODO: check link status.
+    // create a dummy vao for validation of this shader.
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
     glValidateProgram(program);
+    checkStatus(program, GL_VALIDATE_STATUS, glGetProgramiv, glGetProgramInfoLog);
+
+    LOG("Shader created.")
 }
 
 void Shader::createShader(std::string code, GLenum type)
@@ -25,9 +49,9 @@ void Shader::createShader(std::string code, GLenum type)
     const GLchar *source = code.c_str();
 
     glShaderSource(shader, 1, &source, nullptr);
-    glCompileShader(shader);
 
-    // TODO: check is shader compiled.
+    glCompileShader(shader);
+    checkStatus(shader, GL_COMPILE_STATUS, glGetShaderiv, glGetShaderInfoLog);
 
     glAttachShader(program, shader);
 }
@@ -53,4 +77,9 @@ GLuint Shader::getUniformLocation(std::string uniform)
 void Shader::setUniform(std::string uniform, glm::mat3 matrix)
 {
     glUniformMatrix3fv(getUniformLocation(uniform), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void Shader::bind()
+{
+    glUseProgram(program);
 }

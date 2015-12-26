@@ -21,7 +21,12 @@ set(SOURCE_FILES
         sources/Graphics.h
         sources/Shader.cpp
         sources/Shader.h
-        sources/Macros.h sources/Util.h sources/Util.cpp)
+        sources/Macros.h
+        sources/Util.h
+        sources/Util.cpp
+        sources/SpriteBatch.cpp
+        sources/SpriteBatch.h
+        sources/Texture.cpp sources/Texture.h)
 
 add_executable(darkness ${SOURCE_FILES})
 

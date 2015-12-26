@@ -1,7 +1,3 @@
-//
-// Created by Marcelo Jara Almeyda on 12/26/15.
-//
-
 #ifndef DARKNESS_SHADER_H
 #define DARKNESS_SHADER_H
 
@@ -11,8 +7,9 @@
 
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
-#include "OpenGL/gl.h"
+#include "OpenGL/gl3.h"
 #include "Macros.h"
 
 
@@ -29,6 +26,7 @@ public:
     Shader(std::string vertex, std::string fragment);
 
     void setUniform(std::string uniform, glm::mat3 matrix);
+    void bind();
 };
 
 
