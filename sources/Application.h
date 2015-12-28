@@ -5,17 +5,12 @@
 #include <iostream>
 
 #include "Graphics.h"
+#include "Context.h"
 
 class Application {
 private:
     /** The initialization handle. */
-    std::function<void()> initialize;
-
-    /** The update handle. */
-    std::function<void(float)> mainloop;
-
-    /** The render handle. */
-    std::function<void(Graphics*)> render;
+    std::unique_ptr<Context> context;
 
     /** The time that one frame should take. */
     double frameTime;
@@ -33,7 +28,7 @@ private:
     /**
      * The graphics driver.
      */
-    std::unique_ptr<Graphics> graphics;
+    std::shared_ptr<Graphics> graphics;
 
 public:
     /**
@@ -41,7 +36,7 @@ public:
      *
      * @param mainloop      the update handle.
      */
-    Application(std::function<void()> initialize, std::function<void(float)> mainloop, std::function<void(Graphics *)> render);
+    Application(Context *context);
 
     ~Application();
 

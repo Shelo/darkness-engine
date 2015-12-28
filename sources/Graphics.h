@@ -36,7 +36,7 @@ private:
     std::unique_ptr<SpriteBatch> batch;
 
     /** Renderer callback. */
-    std::function<void(Graphics*)> renderer;
+    std::function<void()> renderer;
 
     /** Default camera. */
     Camera camera;
@@ -59,7 +59,7 @@ public:
      * @param height    height for the window in pixels.
      * @param title     title for the window.
      */
-    Graphics(int width, int height, const std::string title, std::function<void(Graphics*)> renderer);
+    Graphics(int width, int height, const std::string title, std::function<void()> renderer);
 
     /**
      * Update events and buffer of the window.

@@ -1,13 +1,10 @@
 #include "Application.h"
 
 
-Application::Application(std::function<void()> initialize, std::function<void(float)> mainloop,
-        std::function<void(Graphics *)> render) :
-        initialize(initialize),
-        mainloop(mainloop),
-        render(render)
+Application::Application(Context *context) :
+        daemon(false)
 {
-
+    this->context.reset(context);
 }
 
 void Application::start(float fps, int width, int height, const std::string title)
@@ -23,9 +20,17 @@ void Application::start(float fps, int width, int height, const std::string titl
     daemon = true;
 
     // create the graphics driver as a unique ptr.
-    graphics.reset(new Graphics(width, height, title, render));
+    graphics.reset(new Graphics(width, height, title, [=] ()
+    {
+        context->render();
+    }));
 
-    initialize();
+    context->setGraphics(graphics);
+
+    // securely, call the context creation.
+    context->create();
+
+    LOG("Application created")
 
     // finally run the application until the daemon dies.
     run();
@@ -66,7 +71,7 @@ void Application::run()
 
 void Application::step(float elapsed)
 {
-    mainloop(elapsed);
+    context->update(elapsed);
     graphics->update();
 
     // input();

@@ -26,7 +26,13 @@ set(SOURCE_FILES
         sources/Util.cpp
         sources/SpriteBatch.cpp
         sources/SpriteBatch.h
-        sources/Texture.cpp sources/Texture.h sources/Camera.cpp sources/Camera.h)
+        sources/Texture.cpp
+        sources/Texture.h
+        sources/Camera.cpp
+        sources/Camera.h
+        sources/Context.h
+        sources/Context.cpp
+        sources/Darkness.h sources/Sprite.cpp sources/Sprite.h)
 
 add_executable(darkness ${SOURCE_FILES})
 

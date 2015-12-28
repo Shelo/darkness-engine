@@ -1,6 +1,6 @@
 #include "Graphics.h"
 
-Graphics::Graphics(int width, int height, const std::string title, std::function<void(Graphics*)> renderer) :
+Graphics::Graphics(int width, int height, const std::string title, std::function<void()> renderer) :
         width(width),
         height(height),
         title(title),
@@ -65,16 +65,7 @@ void Graphics::render()
 
     shader->setUniform("u_projectedView", camera.getProjectedView());
 
-    /*
-    shader->setUniform("u_projectedView", glm::mat4(
-            glm::vec4(1, 0, 0, 0),
-            glm::vec4(0, 1, 0, 0),
-            glm::vec4(0, 0, 1, 0),
-            glm::vec4(0, 0, 0, 1)
-    ));
-     */
-
-    renderer(this);
+    renderer();
 
     batch->render();
 }

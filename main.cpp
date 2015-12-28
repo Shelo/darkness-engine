@@ -1,34 +1,38 @@
 #include <iostream>
 
-#include "Application.h"
+#include "Darkness.h"
 
-Texture *moka;
-
-void initialize()
+class Game : public Context
 {
-    moka = new Texture("resources/moka.png");
-}
+private:
+    Sprite moka;
 
-void render(Graphics *graphics)
-{
-    graphics->getCamera().position.x -= 1;
+public:
+    Game() :
+            moka("resources/moka.png", 0, 0)
+    {
 
-    graphics->getSpriteBatch().draw(*moka, 0, 0, 1, 1, 1, 1);
-    graphics->getSpriteBatch().draw(*moka, 50 * 1, 0, 1, 1, 1, 1);
-    graphics->getSpriteBatch().draw(*moka, 50 * 2, 0, 1, 1, 1, 1);
-    graphics->getSpriteBatch().draw(*moka, 50 * 3, 0, 1, 1, 1, 1);
-}
+    }
 
-void mainloop(float elapsed)
-{
+    void create()
+    {
+        moka.load();
+    }
 
-}
+    void render()
+    {
+        moka.render(&*graphics);
+    }
+
+    void update(float delta)
+    {
+        graphics->getCamera().position -= 2;
+    }
+};
 
 int main() {
-    Application application(initialize, mainloop, render);
+    Application application(new Game());
     application.start(30, 900, 600, "My application");
-
-    delete moka;
 
     return 0;
 }
