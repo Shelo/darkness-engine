@@ -1,9 +1,11 @@
 #include "Graphics.h"
 
-Graphics::Graphics(int width, int height, const std::string title) :
+Graphics::Graphics(int width, int height, const std::string title, std::function<void(Graphics*)> renderer) :
         width(width),
         height(height),
-        title(title)
+        title(title),
+        renderer(renderer),
+        camera(width, height)
 {
     // initialize components and libraries.
     if (!glfwInit()) {
@@ -31,7 +33,11 @@ Graphics::Graphics(int width, int height, const std::string title) :
     glfwMakeContextCurrent(window);
 
     // create the default shader.
-    shader.reset(new Shader(readFile("resources/vertex.glsl"), readFile("resources/fragment.glsl")));
+    shader.reset(new Shader(readFile("resources/vertex_batch.glsl"),
+            readFile("resources/fragment_batch.glsl")));
+
+    // create the default sprite batch.
+    batch.reset(new SpriteBatch());
 
     setupGL();
 
@@ -53,8 +59,24 @@ bool Graphics::isCloseRequested()
 
 void Graphics::render()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     shader->bind();
+
+    shader->setUniform("u_projectedView", camera.getProjectedView());
+
+    /*
+    shader->setUniform("u_projectedView", glm::mat4(
+            glm::vec4(1, 0, 0, 0),
+            glm::vec4(0, 1, 0, 0),
+            glm::vec4(0, 0, 1, 0),
+            glm::vec4(0, 0, 0, 1)
+    ));
+     */
+
+    renderer(this);
+
+    batch->render();
 }
 
 void Graphics::setupGL()
@@ -72,4 +94,14 @@ void Graphics::setupGL()
     glEnable(GL_TEXTURE_2D);
 
     LOG("GL Setup finished.")
+}
+
+SpriteBatch &Graphics::getSpriteBatch() const
+{
+    return *batch;
+}
+
+Camera &Graphics::getCamera()
+{
+    return camera;
 }

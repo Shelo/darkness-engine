@@ -6,13 +6,16 @@
 
 #include "Graphics.h"
 
-/**
- *
- */
 class Application {
 private:
+    /** The initialization handle. */
+    std::function<void()> initialize;
+
     /** The update handle. */
     std::function<void(float)> mainloop;
+
+    /** The render handle. */
+    std::function<void(Graphics*)> render;
 
     /** The time that one frame should take. */
     double frameTime;
@@ -38,7 +41,7 @@ public:
      *
      * @param mainloop      the update handle.
      */
-    Application(std::function<void(float)> mainloop);
+    Application(std::function<void()> initialize, std::function<void(float)> mainloop, std::function<void(Graphics *)> render);
 
     ~Application();
 

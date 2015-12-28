@@ -3,8 +3,10 @@
 
 #include <vector>
 #include <OpenGL/OpenGL.h>
+#include <glm/detail/type_vec.hpp>
 
 #include "Macros.h"
+#include "Texture.h"
 
 #define COMPONENTS_PER_VERTEX   8
 #define MAX_SPRITES             100
@@ -15,26 +17,43 @@
 class SpriteBatch
 {
 private:
-    std::vector<float> vertices;
-    std::vector<float> indices;
+    std::vector<GLfloat> vertices;
+    std::vector<GLuint> indices;
 
-    /**
-     * Vertex array object.
-     */
+    /** Vertex array object. */
     GLuint vao;
 
-    /**
-     * Index buffer object.
-     */
+    /** Index buffer object. */
     GLuint ibo;
 
-    /**
-     * Vertex buffer object.
-     */
+    /** Vertex buffer object. */
     GLuint vbo;
+
+    /** Current texture. */
+    Texture *texture;
+
+    /** Vertex buffer counter */
+    size_t vbc;
+
+    /** Index buffer counter */
+    size_t ibc;
+
+    /** Vertex counter */
+    GLuint vertexCounter;
+
+    /**
+     * Set the current texture, checking if we need to flush or not.
+     */
+    void setTexture(Texture &texture);
+
 
 public:
     SpriteBatch();
+
+    void render();
+
+    void draw(Texture &texture, float x, float y, float r, float g, float b, float a);
+    void draw(Texture &texture, int width, int height, float x, float y, float r, float g, float b, float a);
 };
 
 

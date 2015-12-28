@@ -28,12 +28,14 @@ Shader::Shader(std::string vertex, std::string fragment)
     checkStatus(program, GL_LINK_STATUS, glGetProgramiv, glGetProgramInfoLog);
 
     // create a dummy vao for validation of this shader.
+    /*
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
     glValidateProgram(program);
     checkStatus(program, GL_VALIDATE_STATUS, glGetProgramiv, glGetProgramInfoLog);
+     */
 
     LOG("Shader created.")
 }
@@ -72,6 +74,11 @@ GLuint Shader::getUniformLocation(std::string uniform)
     }
 
     return location;
+}
+
+void Shader::setUniform(std::string uniform, glm::mat4 matrix)
+{
+    glUniformMatrix4fv(getUniformLocation(uniform), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void Shader::setUniform(std::string uniform, glm::mat3 matrix)

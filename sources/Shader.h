@@ -25,6 +25,7 @@ private:
 public:
     Shader(std::string vertex, std::string fragment);
 
+    void setUniform(std::string uniform, glm::mat4 matrix);
     void setUniform(std::string uniform, glm::mat3 matrix);
     void bind();
 };

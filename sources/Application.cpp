@@ -1,8 +1,11 @@
 #include "Application.h"
 
 
-Application::Application(std::function<void(float)> mainloop) :
-        mainloop(mainloop)
+Application::Application(std::function<void()> initialize, std::function<void(float)> mainloop,
+        std::function<void(Graphics *)> render) :
+        initialize(initialize),
+        mainloop(mainloop),
+        render(render)
 {
 
 }
@@ -20,7 +23,9 @@ void Application::start(float fps, int width, int height, const std::string titl
     daemon = true;
 
     // create the graphics driver as a unique ptr.
-    graphics.reset(new Graphics(width, height, title));
+    graphics.reset(new Graphics(width, height, title, render));
+
+    initialize();
 
     // finally run the application until the daemon dies.
     run();
@@ -63,6 +68,7 @@ void Application::step(float elapsed)
 {
     mainloop(elapsed);
     graphics->update();
+
     // input();
 }
 
