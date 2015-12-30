@@ -9,7 +9,7 @@
 #include "Texture.h"
 
 #define COMPONENTS_PER_VERTEX   8
-#define MAX_SPRITES             100
+#define MAX_SPRITES             200
 #define MAX_VERTICES            MAX_SPRITES * 4
 #define VERTEX_BUFFER_SIZE      COMPONENTS_PER_VERTEX * MAX_VERTICES
 #define INDEX_BUFFER_SIZE       MAX_SPRITES * 6

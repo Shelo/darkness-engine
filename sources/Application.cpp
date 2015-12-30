@@ -1,13 +1,9 @@
 #include "Application.h"
 
+#include "game/Game.h"
 
-Application::Application(Context *context) :
-        daemon(false)
-{
-    this->context.reset(context);
-}
-
-void Application::start(float fps, int width, int height, const std::string title)
+template <class T>
+void Application<T>::start(float fps, int width, int height, const std::string title)
 {
     // do not start again.
     if (daemon)
@@ -25,10 +21,10 @@ void Application::start(float fps, int width, int height, const std::string titl
         context->render();
     }));
 
-    context->setGraphics(graphics);
-
     // securely, call the context creation.
-    context->create();
+    context.reset(new T());
+
+    context->setGraphics(graphics);
 
     LOG("Application created")
 
@@ -36,7 +32,8 @@ void Application::start(float fps, int width, int height, const std::string titl
     run();
 }
 
-void Application::run()
+template <class T>
+void Application<T>::run()
 {
     double current;
     double elapsed;
@@ -54,13 +51,9 @@ void Application::run()
 
         while (lag >= frameTime) {
             // update the game.
-            step((float) delta);
+            step((float) frameTime);
 
             lag -= frameTime;
-
-            // since the game was updated, the delta should be restarted
-            // to count for the next frame.
-            delta = 0;
         }
 
         if (graphics->isCloseRequested()) {
@@ -69,7 +62,8 @@ void Application::run()
     }
 }
 
-void Application::step(float elapsed)
+template <class T>
+void Application<T>::step(float elapsed)
 {
     context->update(elapsed);
     graphics->update();
@@ -77,7 +71,11 @@ void Application::step(float elapsed)
     // input();
 }
 
-Application::~Application()
+
+template <class T>
+Application<T>::~Application()
 {
     glfwTerminate();
 }
+
+template class Application<Game>;

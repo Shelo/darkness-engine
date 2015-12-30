@@ -13,7 +13,6 @@ protected:
     std::shared_ptr<Graphics> graphics;
 
 public:
-    virtual void create() = 0;
     virtual void render() = 0;
     virtual void update(float delta) = 0;
 

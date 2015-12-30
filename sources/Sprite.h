@@ -27,6 +27,8 @@ public:
     void load();
 
     void render(Graphics *graphics);
+
+    Sprite(const Sprite &other);
 };
 
 

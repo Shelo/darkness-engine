@@ -7,16 +7,16 @@
 #include "Graphics.h"
 #include "Context.h"
 
-class Application {
+template <class T> class Application {
 private:
     /** The initialization handle. */
-    std::unique_ptr<Context> context;
+    std::unique_ptr<T> context;
 
     /** The time that one frame should take. */
     double frameTime;
 
     /** Tells if the application should continue or stop when possible. */
-    bool daemon;
+    bool daemon = false;
 
     /**
      * Application's running state, this updates the game and graphics while
@@ -31,13 +31,6 @@ private:
     std::shared_ptr<Graphics> graphics;
 
 public:
-    /**
-     * Creates the application and sets the state handles.
-     *
-     * @param mainloop      the update handle.
-     */
-    Application(Context *context);
-
     ~Application();
 
     /**
