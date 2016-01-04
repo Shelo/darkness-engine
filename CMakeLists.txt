@@ -32,7 +32,7 @@ set(SOURCE_FILES
         sources/Camera.h
         sources/Context.h
         sources/Context.cpp
-        sources/Darkness.h sources/Sprite.cpp sources/Sprite.h sources/game/TileMap.cpp sources/game/TileMap.h sources/game/Game.cpp sources/game/Game.h)
+        sources/Darkness.h sources/Sprite.cpp sources/Sprite.h sources/game/TileMap.cpp sources/game/TileMap.h sources/game/Game.cpp sources/game/Game.h sources/game/Constructor.cpp sources/game/Constructor.h)
 
 add_executable(darkness ${SOURCE_FILES})
 
